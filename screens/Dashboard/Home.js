@@ -17,6 +17,42 @@ import {
   dummyData,
 } from "../../constants";
 
+const Section = ({ containerStyle, title, onPress, children }) => {
+  return (
+    <View
+      style={{
+        ...containerStyle,
+      }}
+    >
+      <View
+        style={{
+          flexDirection: "row",
+          paddingHorizontal: SIZES.padding,
+        }}
+      >
+        <Text
+          style={{
+            flex: 1,
+            ...FONTS.h2,
+          }}
+        >
+          {title}
+        </Text>
+
+        <TextButton
+          contentContainerStyle={{
+            width: 80,
+            borderRadius: 30,
+            backgroundColor: COLORS.primary,
+          }}
+          label="See All"
+          onPress={onPress}
+        />
+      </View>
+    </View>
+  );
+};
+
 const Home = () => {
   function renderHeader() {
     return (
@@ -141,6 +177,28 @@ const Home = () => {
     );
   }
 
+  function renderCategories() {
+    return (
+      <Section title="Categories">
+        <FlatList
+          horizontal
+          data={dummyData.categories}
+          listKey="Categories"
+          keyExtractor={(item) => `Categories-${item.id}`}
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={{
+            marginTop: SIZES.radius,
+          }}
+          renderItem={({ item, index }) => (
+            <View>
+              <Text>Test</Text>
+            </View>
+          )}
+        />
+      </Section>
+    );
+  }
+
   return (
     <View style={{ flex: 1, backgroundColor: COLORS.white }}>
       {/* Header */}
@@ -164,6 +222,9 @@ const Home = () => {
             marginVertical: SIZES.padding,
           }}
         />
+
+        {/* Categories */}
+        {renderCategories()}
       </ScrollView>
     </View>
   );
