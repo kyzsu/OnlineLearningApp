@@ -3,6 +3,8 @@ import { View, Text, ImageBackground, Image, ScrollView } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 
 import {
+  CategoryCard,
+  HorizontalCourseCard,
   IconButton,
   TextButton,
   VerticalCourseCard,
@@ -49,6 +51,7 @@ const Section = ({ containerStyle, title, onPress, children }) => {
           onPress={onPress}
         />
       </View>
+      {children}
     </View>
   );
 };
@@ -190,9 +193,52 @@ const Home = () => {
             marginTop: SIZES.radius,
           }}
           renderItem={({ item, index }) => (
-            <View>
-              <Text>Test</Text>
-            </View>
+            <CategoryCard
+              category={item}
+              containerStyle={{
+                marginLeft: index === 0 ? SIZES.padding : SIZES.base,
+                marginRight:
+                  index === dummyData.categories.length - 1 ? SIZES.padding : 0,
+              }}
+            />
+          )}
+        />
+      </Section>
+    );
+  }
+
+  function renderPopularCourses() {
+    return (
+      <Section
+        title="Popular Courses"
+        containerStyle={{
+          marginTop: 30,
+        }}
+      >
+        <FlatList
+          data={dummyData.courses_list_2}
+          listKey="PopularCourses"
+          scrollEnabled={false}
+          keyExtractor={(item) => `PopularCourses-${item.id}`}
+          contentContainerStyle={{
+            marginTop: SIZES.radius,
+            paddingHorizontal: SIZES.padding,
+          }}
+          renderItem={({ item, index }) => (
+            <HorizontalCourseCard
+              course={item}
+              containerStyle={{
+                marginVertical: SIZES.padding,
+                marginTop: index === 0 ? SIZES.radius : SIZES.padding,
+              }}
+            />
+          )}
+          ItemSeparatorComponent={() => (
+            <LineDivider
+              lineStyle={{
+                backgroundColor: COLORS.gray20,
+              }}
+            />
           )}
         />
       </Section>
@@ -225,6 +271,9 @@ const Home = () => {
 
         {/* Categories */}
         {renderCategories()}
+
+        {/* Popular Courses */}
+        {renderPopularCourses()}
       </ScrollView>
     </View>
   );
